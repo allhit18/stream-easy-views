@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/pagination";
 import { useQuery } from "@tanstack/react-query";
 import { getLatestVideos } from "@/api/mockApi";
+import { Video } from "@/data/videos";
 
 const VIDEOS_PER_PAGE = 3;
 
@@ -20,11 +21,14 @@ export default function HomePage() {
 
   const page = parseInt(searchParams.get("page") ?? "1", 10);
 
-  // Fetch videos using the API
-  const { data, isLoading, error } = useQuery({
+  // Fetch videos using the API with proper type definition
+  const { data, isLoading, error } = useQuery<{
+    data: Video[];
+    pagination: { total: number; page: number; perPage: number; pageCount: number };
+  }>({
     queryKey: ["latestVideos", page],
     queryFn: () => getLatestVideos(page, VIDEOS_PER_PAGE),
-    keepPreviousData: true
+    placeholderData: (prev) => prev,
   });
 
   const paginatedVideos = data?.data || [];

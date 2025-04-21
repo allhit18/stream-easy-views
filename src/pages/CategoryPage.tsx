@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
 import { getVideosByCategory } from "@/api/mockApi";
+import { Video } from "@/data/videos";
 import {
   Pagination,
   PaginationContent,
@@ -23,11 +24,14 @@ export default function CategoryPage() {
 
   const page = parseInt(searchParams.get("page") ?? "1", 10);
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error } = useQuery<{
+    data: Video[];
+    pagination: { total: number; page: number; perPage: number; pageCount: number };
+  }>({
     queryKey: ["categoryVideos", decodedCategory, page],
     queryFn: () => getVideosByCategory(decodedCategory, page, VIDEOS_PER_PAGE),
     enabled: !!decodedCategory,
-    keepPreviousData: true,
+    placeholderData: (prev) => prev,
   });
 
   if (!decodedCategory || error) {
