@@ -1,5 +1,8 @@
 
-// This file is now unused since routing is handled in Index.tsx
-// Optionally, you can remove this file if desired.
-const App = () => null;
+import Index from './pages/Index';
+
+function App() {
+  return <Index />;
+}
+
 export default App;

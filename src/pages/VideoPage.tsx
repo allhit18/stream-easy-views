@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import { Helmet } from "react-helmet-async";
 import { useQuery } from "@tanstack/react-query";
 import { getVideoById, getVideosByCategory } from "@/api/mockApi";
+import { Video } from "@/data/videos";
 
 export default function VideoPage() {
   const { id } = useParams();
